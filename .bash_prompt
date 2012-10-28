@@ -1,7 +1,3 @@
-# @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
-# Shamelessly copied from https://github.com/gf3/dotfiles
-# Screenshot: http://i.imgur.com/s0Blh.png
-
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
 	export TERM=gnome-256color
 elif infocmp xterm-256color >/dev/null 2>&1; then
@@ -51,5 +47,56 @@ function parse_git_branch() {
 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
-export PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]at \[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
+function bash_prompt_command() {
+    local pwdmaxlen=35
+    local trunc_symbol=".."
+    local dir=${PWD##*/}
+
+    pwdmaxlen=$(( ( pwdmaxlen < ${#dir} ) ? ${#dir} : pwdmaxlen ))
+
+    if [ ${PWD} = "$HOME" ]; then
+    	NEW_PWD=${PWD}
+    else
+	    NEW_PWD=${PWD/#$HOME/\~}
+    fi
+
+    local pwdoffset=$(( ${#NEW_PWD} - pwdmaxlen ))
+    if [ ${pwdoffset} -gt "0" ]; then
+        NEW_PWD=${NEW_PWD:$pwdoffset:$pwdmaxlen}
+        NEW_PWD=${trunc_symbol}/${NEW_PWD#*/}
+    fi
+
+    echo "$NEW_PWD"
+}
+
+function titlebar() {
+	case $TERM in
+     xterm*|rxvt*)
+         local TITLEBAR="\[\033]0;\$(bash_prompt_command)\007\]"
+         ;;
+     *)
+         local TITLEBAR=""
+         ;;
+    esac
+
+    echo -e $TITLEBAR
+}
+
+function symbol_color() {
+	if sudo -n /bin/true 2> /dev/null; then
+		echo -e "$ROOT_SYMBOL_COLOR"
+	else
+		echo -e "$SYMBOL_COLOR"
+	fi
+}
+
+export PATH_COLOR="\033[0;92m"
+export GIT_BRANCH_COLOR=$ORANGE
+export SYMBOL_COLOR=$WHITE
+export ROOT_SYMBOL_COLOR="\033[1;31m"
+
+# Cool chars: λ ↬ ⌁ ⌀ ⌂ ⌘ ⌬ ▢ ☛ ☠ ☢ ☣ ☮ ☯ ☸ ⚓ ⚒ ⚛ ⚙ ⚡ ✪ 𝅘𝅥𝅮 ⇝
+# Weather: ☀ ☁ ☂ ☃ ☔ (use colors too!)
+
+export PS1="$(titlebar)\[$PATH_COLOR\]\$(bash_prompt_command)\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" \[$GIT_BRANCH_COLOR\](\"\$(parse_git_branch)\)) \[$RESET\]\$(symbol_color)⌁\[$RESET\] "
 export PS2="\[$ORANGE\]→ \[$RESET\]"
