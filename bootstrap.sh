@@ -16,7 +16,7 @@ cd "$DOTFILES"
 
 for dotfile in `ls -A -I .git -I .DS_Store -I bootstrap.sh -I README.md $DOTFILES/`; do
 	echo "$dotfile"
-	ln -sf "$dotfile" "$HOME/.$dotfile"
+	ln -sf "$DOTFILES/$dotfile" "$HOME/.$dotfile"
 done
 unset dotfile
 
