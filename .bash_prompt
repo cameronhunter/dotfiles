@@ -1,34 +1,34 @@
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-	export TERM=gnome-256color
+    export TERM=gnome-256color
 elif infocmp xterm-256color >/dev/null 2>&1; then
-	export TERM=xterm-256color
+    export TERM=xterm-256color
 fi
 
 if tput setaf 1 &> /dev/null; then
-	tput sgr0
-	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-		MAGENTA=$(tput setaf 9)
-		ORANGE=$(tput setaf 172)
-		GREEN=$(tput setaf 190)
-		PURPLE=$(tput setaf 141)
-		WHITE=$(tput setaf 256)
-	else
-		MAGENTA=$(tput setaf 5)
-		ORANGE=$(tput setaf 4)
-		GREEN=$(tput setaf 2)
-		PURPLE=$(tput setaf 1)
-		WHITE=$(tput setaf 7)
-	fi
-	BOLD=$(tput bold)
-	RESET=$(tput sgr0)
+    tput sgr0
+    if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+        MAGENTA=$(tput setaf 9)
+        ORANGE=$(tput setaf 172)
+        GREEN=$(tput setaf 190)
+        PURPLE=$(tput setaf 141)
+        WHITE=$(tput setaf 256)
+    else
+        MAGENTA=$(tput setaf 5)
+        ORANGE=$(tput setaf 4)
+        GREEN=$(tput setaf 2)
+        PURPLE=$(tput setaf 1)
+        WHITE=$(tput setaf 7)
+    fi
+    BOLD=$(tput bold)
+    RESET=$(tput sgr0)
 else
-	MAGENTA="\e[1;31m"
-	ORANGE="\e[1;33m"
-	GREEN="\e[1;32m"
-	PURPLE="\e[1;35m"
-	WHITE="\e[1;37m"
-	BOLD=""
-	RESET="\e[0m"
+    MAGENTA="\e[1;31m"
+    ORANGE="\e[1;33m"
+    GREEN="\e[1;32m"
+    PURPLE="\e[1;35m"
+    WHITE="\e[1;37m"
+    BOLD=""
+    RESET="\e[0m"
 fi
 
 export MAGENTA
@@ -40,11 +40,11 @@ export BOLD
 export RESET
 
 function parse_git_dirty() {
-	[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
 }
 
 function parse_git_branch() {
-	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
 function working_directory() {
@@ -55,9 +55,9 @@ function working_directory() {
     pwdmaxlen=$(( ( pwdmaxlen < ${#dir} ) ? ${#dir} : pwdmaxlen ))
 
     if [ ${PWD} = "$HOME" ]; then
-    	NEW_PWD=${PWD}
+        NEW_PWD=${PWD}
     else
-	    NEW_PWD=${PWD/#$HOME/\~}
+        NEW_PWD=${PWD/#$HOME/\~}
     fi
 
     local pwdoffset=$(( ${#NEW_PWD} - pwdmaxlen ))
@@ -70,24 +70,25 @@ function working_directory() {
 }
 
 function titlebar() {
-	case $TERM in
+    case $TERM in
      xterm*|rxvt*)
-         local TITLEBAR="\e]0;$(working_directory)\007"
-         ;;
+        local NAME=`hostname -s`
+        local TITLEBAR="\e]0;$(NAME):$(working_directory)\007"
+        ;;
      *)
-         local TITLEBAR=""
-         ;;
+        local TITLEBAR=""
+        ;;
     esac
 
     echo -e "$TITLEBAR"
 }
 
 function symbol_color() {
-	if sudo -n /bin/true 2> /dev/null; then
-		echo -e "$ROOT_SYMBOL_COLOR"
-	else
-		echo -e "$SYMBOL_COLOR"
-	fi
+    if sudo -n /bin/true 2> /dev/null; then
+        echo -e "$ROOT_SYMBOL_COLOR"
+    else
+        echo -e "$SYMBOL_COLOR"
+    fi
 }
 
 export PATH_COLOR="\e[0;92m"
