@@ -98,5 +98,5 @@ export ROOT_SYMBOL_COLOR="\e[1;31m"
 # Cool chars: λ ↬ ⌁ ⌀ ⌂ ⌘ ⌬ ▢ ☛ ☠ ☢ ☣ ☮ ☯ ☸ ⚓ ⚒ ⚛ ⚙ ⚡ ✪ 𝅘𝅥𝅮 ⇝
 # Weather: ☀ ☁ ☂ ☃ ☔ (use colors too!)
 
-export PS1="\[$(titlebar)\]\[$PATH_COLOR\]\$(bash_prompt_command)\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" \[$GIT_BRANCH_COLOR\](\"\$(parse_git_branch)\)) \[$RESET\]\$(symbol_color)⌁\[$RESET\] "
+export PS1="\[$PATH_COLOR\]\$(bash_prompt_command)\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" \[$GIT_BRANCH_COLOR\](\"\$(parse_git_branch)\)) \[$RESET\]\$(symbol_color)⌁\[$RESET\] "
 export PS2="\[$ORANGE\]→ \[$RESET\]"
