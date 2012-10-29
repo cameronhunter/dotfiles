@@ -1,20 +1,28 @@
-term        screen-256color
-attrcolor b ".I"
-termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
-defc1 			off		# UTF-8 Suport
-defutf8			on		# UTF-8 Support
-autodetach		on		# Standard: on
-crlf			off		# Standard: off
-deflogin		off		# Standard: on
-hardcopy_append		on		# Standard: off
-startup_message		off		# Standard: on
-vbell			on
-defscrollback		5000		# Standard: 100
-silencewait		15		# Standard: 30
-nethack			on		# add some humor to our messages
-activity		"activity in %n (%t) [%w:%s]~"
-bell			"%C -> %n%f %t popped!"
-vbell_msg		" *Bell* "
-hardstatus		ignore
+setenv LC_CTYPE en_US.UTF-8
 
-caption always "%{.3} %H %{.w} %-w%{wb}%n %t%{-}%+w"
+defutf8				on
+
+autodetach			on
+crlf				off
+deflogin			off
+hardcopy_append		on
+
+startup_message		off
+vbell				off
+
+defscrollback		10000
+silencewait			15
+
+term				screen-256color
+hardstatus			off
+
+activity			"%c activity → %n%f %t"
+bell				"%c bell → %n%f %t^G"
+vbell_msg			" *Bell* "
+
+termcapinfo			xterm				"Co#256:AB=\e[48;5;%dm:AF=\e[38;5;%dm"
+caption				always				"%{.3} %H %{.w} %-w%{wb}%n %t%{-}%+w"
+
+#attrcolor b ".I"
+#defc1 			off		# UTF-8 Suport
+#nethack			off		# add some humor to our messages
