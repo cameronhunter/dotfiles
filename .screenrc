@@ -22,7 +22,3 @@ vbell_msg			" *Bell* "
 
 termcapinfo			xterm				"Co#256:AB=\e[48;5;%dm:AF=\e[38;5;%dm"
 caption				always				"%{.3} %H %{.w} %-w%{wb}%n %t%{-}%+w"
-
-#attrcolor b ".I"
-#defc1 			off		# UTF-8 Suport
-#nethack			off		# add some humor to our messages
