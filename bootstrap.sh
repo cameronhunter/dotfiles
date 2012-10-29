@@ -1,21 +1,25 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 
-git pull
+DOTFILES="$HOME/.dotfiles"
+CURRENT_DIR=`pwd`
 
-function doIt() {
-	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" --exclude "README.md" -av . ~
-}
-
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	doIt
+if [ -d "$DOTFILES" ]; then
+	echo "Updating $DOTFILES"
+	cd "$DOTFILES"
+	git pull
 else
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
-	echo
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		doIt
-	fi
+	echo "Creating $DOTFILES"
+	git clone . "$DOTFILES"
 fi
-unset doIt
 
-source ~/.bash_profile
+cd "$DOTFILES"
+
+for dotfile in `ls -A -I .git -I .DS_Store -I bootstrap.sh -I README.md $DOTFILES/`; do
+	echo "$dotfile"
+	ln -sf "$dotfile" "$HOME/.$dotfile"
+done
+unset dotfile
+
+source "$HOME/.bash_profile"
+
+cd "$CURRENT_DIR"
