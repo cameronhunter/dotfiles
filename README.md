@@ -45,6 +45,9 @@ git config --global user.email "$GIT_AUTHOR_EMAIL"
 
 You could also use `~/.extra` to override settings, functions and aliases from my dotfiles repository. It’s probably better to [fork this repository](https://github.com/cameronhunter/dotfiles/fork_select) instead, though.
 
+## Check it out
+![My awesome bash prompt](https://dl.dropbox.com/u/161487/terminal.png)
+
 ## Feedback
 
 Suggestions/improvements
