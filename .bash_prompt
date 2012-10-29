@@ -47,9 +47,9 @@ function parse_git_branch() {
 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
-function bash_prompt_command() {
+function working_directory() {
     local pwdmaxlen=35
-    local trunc_symbol=".."
+    local trunc_symbol="…"
     local dir=${PWD##*/}
 
     pwdmaxlen=$(( ( pwdmaxlen < ${#dir} ) ? ${#dir} : pwdmaxlen ))
@@ -72,7 +72,7 @@ function bash_prompt_command() {
 function titlebar() {
 	case $TERM in
      xterm*|rxvt*)
-         local TITLEBAR="\[\e]0;\$(bash_prompt_command)\007\]"
+         local TITLEBAR="\[\e]0;\$(working_directory)\007\]"
          ;;
      *)
          local TITLEBAR=""
@@ -98,5 +98,5 @@ export ROOT_SYMBOL_COLOR="\e[1;31m"
 # Cool chars: λ ↬ ⌁ ⌀ ⌂ ⌘ ⌬ ▢ ☛ ☠ ☢ ☣ ☮ ☯ ☸ ⚓ ⚒ ⚛ ⚙ ⚡ ✪ 𝅘𝅥𝅮 ⇝
 # Weather: ☀ ☁ ☂ ☃ ☔ (use colors too!)
 
-export PS1="\[$PATH_COLOR\]\$(bash_prompt_command)\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" \[$GIT_BRANCH_COLOR\](\"\$(parse_git_branch)\)) \[$RESET\]\[\$(symbol_color)\]⌁ \[$RESET\]"
+export PS1="\$(titlebar)\[$PATH_COLOR\]\$(working_directory)\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" \[$GIT_BRANCH_COLOR\](\"\$(parse_git_branch)\)) \[$RESET\]\[\$(symbol_color)\]⌁ \[$RESET\]"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
