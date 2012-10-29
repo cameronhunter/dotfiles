@@ -72,7 +72,7 @@ function working_directory() {
 function titlebar() {
 	case $TERM in
      xterm*|rxvt*)
-         local TITLEBAR="\e]0;\$(working_directory)\007"
+         local TITLEBAR="\e]0;$(working_directory)\007"
          ;;
      *)
          local TITLEBAR=""
