@@ -7,14 +7,12 @@ fi
 if tput setaf 1 &> /dev/null; then
     tput sgr0
     if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-        RED=$(tput setaf 1)
         MAGENTA=$(tput setaf 9)
         ORANGE=$(tput setaf 172)
         GREEN=$(tput setaf 190)
         PURPLE=$(tput setaf 141)
         WHITE=$(tput setaf 256)
     else
-        RED=$(tput setaf 1)
         MAGENTA=$(tput setaf 5)
         ORANGE=$(tput setaf 4)
         GREEN=$(tput setaf 2)
@@ -24,7 +22,6 @@ if tput setaf 1 &> /dev/null; then
     BOLD=$(tput bold)
     RESET=$(tput sgr0)
 else
-    RED="\e[1;31m"
     MAGENTA="\e[1;31m"
     ORANGE="\e[1;33m"
     GREEN="\e[1;32m"
@@ -34,7 +31,6 @@ else
     RESET="\e[0m"
 fi
 
-export RED
 export MAGENTA
 export ORANGE
 export GREEN
@@ -95,13 +91,13 @@ function symbol_color() {
     fi
 }
 
-export PATH_COLOR=$GREEN #"\e[0;92m"
+export PATH_COLOR="\e[0;92m"
 export GIT_BRANCH_COLOR=$ORANGE
 export SYMBOL_COLOR=$WHITE
-export ROOT_SYMBOL_COLOR=$RED
+export ROOT_SYMBOL_COLOR="\e[1;31m"
 
 # Cool chars: λ ↬ ⌁ ⌀ ⌂ ⌘ ⌬ ▢ ☛ ☠ ☢ ☣ ☮ ☯ ☸ ⚓ ⚒ ⚛ ⚙ ⚡ ✪ 𝅘𝅥𝅮 ⇝
 # Weather: ☀ ☁ ☂ ☃ ☔ (use colors too!)
 
-export PS1="\[\$(titlebar 2> /dev/null)\]\[$PATH_COLOR\]\$(working_directory 2> /dev/null)\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" \[$GIT_BRANCH_COLOR\](\"\$(parse_git_branch)\)) \[$RESET\]\[\$(symbol_color)\]⌁ \[$RESET\]"
+export PS1="\[$PATH_COLOR\]\$(working_directory 2> /dev/null)\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" \[$GIT_BRANCH_COLOR\](\"\$(parse_git_branch)\)) \[$RESET\]\[\$(symbol_color)\]⌁ \[$RESET\]"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
