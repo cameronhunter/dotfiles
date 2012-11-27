@@ -14,7 +14,7 @@ fi
 
 cd "$DOTFILES"
 
-for dotfile in `ls -A -I .git -I .DS_Store -I bootstrap.sh -I README.md $DOTFILES/`; do
+for dotfile in `ls -A $DOTFILES/ | grep -v .git | grep -v README* | grep -v .DS_Store`; do
 	echo "$dotfile"
 	ln -sf "$DOTFILES/$dotfile" "$HOME/.$dotfile"
 done
